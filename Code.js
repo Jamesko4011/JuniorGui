@@ -166,7 +166,7 @@ gui.innerHTML = `
   <div class="gui-header" id="guiHeader">
     <div class="left">
       <img src="https://i.ibb.co/C5tNRXNf/image-removebg-preview-4.png" alt="Logo">
-      <span>GUI</span>
+      <span>Junior Einsten Cheat GUI</span>
     </div>
   </div>
   <div class="gui-body" id="guiBody">
@@ -176,12 +176,12 @@ gui.innerHTML = `
         span.classList.remove('question-invisible');
         span.classList.add('question-visible');
       });
-    ">Second Action</button>
+    ">Show Answer</button>
   </div>
   <div class="gui-panel">
     <button id="minBtn" title="Minimize">–</button>
     <button id="closeBtn" title="Close GUI">&times;</button>
-    <button id="darkModeBtn" title="Toggle Dark Mode">🌞</button>
+    <button id="darkModeBtn" title="Toggle Dark Mode">☀️</button>
   </div>
 `;
 document.body.appendChild(gui);
@@ -233,7 +233,7 @@ closeBtn.onclick = () => gui.remove();
 const darkModeBtn = document.getElementById("darkModeBtn");
 darkModeBtn.onclick = () => {
   gui.classList.toggle("dark-mode");
-  darkModeBtn.textContent = gui.classList.contains("dark-mode") ? "🌙" : "🌞";
+  darkModeBtn.textContent = gui.classList.contains("dark-mode") ? "🌙" : "☀️";
 };
 
 // Auto Answer Logic

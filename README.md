@@ -1,18 +1,7 @@
 # Junior GUI
 How to Run Junior GUI
-1. Using the Bookmarklet (Bookmarklet.js):
 
-· Open your browser’s bookmarks manager.
-
-· Create a new bookmark.
-
-· In the URL field, paste the entire code from Bookmarklet.js.
-
-· Save the bookmark.
-
-· When you want to use Junior GUI, just click that bookmark while on any webpage.
-
-2. Using the Normal JavaScript Code (Code.js):
+Using the Normal JavaScript Code (Code.js):
 
 · Open the webpage where you want to use Junior GUI.
 

@@ -3,6 +3,10 @@ const font = document.createElement("link");
 font.href = "https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap";
 font.rel = "stylesheet";
 document.head.appendChild(font);
+const font2 = document.createElement("link");
+font2.href = "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
+font2.rel = "stylesheet";
+document.head.appendChild(font2);
 
 // Inject styles
 const style = document.createElement("style");
@@ -17,14 +21,13 @@ style.textContent = `
     top: 20px;
     left: 20px;
     background: white;
-    border: 2px solid #ccc;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     width: 330px;
     min-width: 200px;
     z-index: 99999;
     resize: both;
-    overflow: hidden; /* Important to hide content when minimized */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +35,6 @@ style.textContent = `
   }
   .gui-container.dark-mode {
     background: #1e1e1e;
-    border-color: #555;
     color: #ddd;
   }
   .gui-header {
@@ -40,7 +42,6 @@ style.textContent = `
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    border-bottom: 2px solid #ccc;
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
     cursor: move;
@@ -74,6 +75,7 @@ style.textContent = `
     align-items: center;
     box-sizing: border-box;
     transition: max-height 0.3s ease;
+    background-color: #3391bd;
   }
   .gui-button {
     font-family: 'Fredoka One', cursive;
@@ -105,23 +107,23 @@ style.textContent = `
     align-items: center;
     gap: 10px;
     padding: 10px 0;
-    border-top: 2px solid #ccc;
     border-bottom-left-radius: 18px;
     border-bottom-right-radius: 18px;
-    background: #f9f9f9;
+    background: url('https://www.junioreinstein.nl/template/images/backgrounds/nl_junioreinstein/medium/bg-default.png') no-repeat center center;
+    background-size: cover;
+    background-color: #3391bd;
     width: 100%;
     box-sizing: border-box;
     transition: max-height 0.3s ease;
   }
   .gui-container.dark-mode .gui-panel {
     background: #2a2a2a;
-    border-color: #555;
   }
   .gui-panel button {
-    background: none;
-    border: 2px solid #0066cc;
+  background-color: #0066cc;
+    border: 2px solid #FFFFFF;
     border-radius: 8px;
-    color: #0066cc;
+    color: #FFFFFF;
     font-size: 20px;
     cursor: pointer;
     padding: 5px 12px;
@@ -151,12 +153,18 @@ style.textContent = `
     user-select: none;
   }
   .gui-container.minimized .gui-panel {
-    max-height: none;  /* keep panel visible */
+    max-height: none;
     padding: 10px 0;
     pointer-events: auto;
     user-select: auto;
   }
+
+  .credits {
+    font-size: 12px;
+    font-family: 'Open Sans', cursive;
+  }
 `;
+
 document.head.appendChild(style);
 
 // Create GUI container
@@ -166,10 +174,15 @@ gui.innerHTML = `
   <div class="gui-header" id="guiHeader">
     <div class="left">
       <img src="https://i.ibb.co/C5tNRXNf/image-removebg-preview-4.png" alt="Logo">
-      <span>Junior Einsten Cheat GUI</span>
+      <span>r</span>
     </div>
   </div>
   <div class="gui-body" id="guiBody">
+    <div class="credits" id="creds">
+  Made by <a href="https://github.com/jamesko4011" target="_blank" rel="noopener noreferrer">Jamesko1104</a>
+</div>
+
+
     <button class="gui-button" id="autoBtn">Auto Answer</button>
     <button class="gui-button" onclick="
       document.querySelectorAll('span.question-invisible.correct').forEach(span => {

@@ -11,16 +11,13 @@ document.head.appendChild(font2);
 // Inject styles
 const style = document.createElement("style");
 style.textContent = `
-  .dark-mode {
-    background: #1e1e1e !important;
-    color: #ddd !important;
-  }
   .gui-container {
     font-family: 'Fredoka One', cursive;
     position: fixed;
     top: 20px;
     left: 20px;
     background: white;
+    color: #111;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     width: 330px;
@@ -33,10 +30,7 @@ style.textContent = `
     align-items: center;
     transition: background-color 0.3s, color 0.3s;
   }
-  .gui-container.dark-mode {
-    background: #1e1e1e;
-    color: #ddd;
-  }
+
   .gui-header {
     display: flex;
     align-items: center;
@@ -52,21 +46,22 @@ style.textContent = `
     width: 100%;
     box-sizing: border-box;
   }
-  .gui-container.dark-mode .gui-header {
-    background-color: #0050a3;
-  }
+
   .gui-header .left {
     display: flex;
     align-items: center;
     gap: 8px;
   }
+
   .gui-header img {
     width: 30px;
     height: 30px;
   }
+
   .gui-header span {
     font-size: 18px;
   }
+
   .gui-body {
     padding: 15px 0;
     width: 100%;
@@ -76,7 +71,9 @@ style.textContent = `
     box-sizing: border-box;
     transition: max-height 0.3s ease;
     background-color: #3391bd;
+    color: white;
   }
+
   .gui-button {
     font-family: 'Fredoka One', cursive;
     width: 95%;
@@ -91,16 +88,11 @@ style.textContent = `
     transition: background-color 0.3s;
     max-width: 280px;
   }
+
   .gui-button:hover {
     background-color: #005bb5;
   }
-  .gui-container.dark-mode .gui-button {
-    background-color: #3399ff;
-    color: #222;
-  }
-  .gui-container.dark-mode .gui-button:hover {
-    background-color: #267acc;
-  }
+
   .gui-panel {
     display: flex;
     justify-content: center;
@@ -116,11 +108,9 @@ style.textContent = `
     box-sizing: border-box;
     transition: max-height 0.3s ease;
   }
-  .gui-container.dark-mode .gui-panel {
-    background: #2a2a2a;
-  }
+
   .gui-panel button {
-  background-color: #0066cc;
+    background-color: #0066cc;
     border: 2px solid #FFFFFF;
     border-radius: 8px;
     color: #FFFFFF;
@@ -130,20 +120,12 @@ style.textContent = `
     transition: background-color 0.3s, color 0.3s;
     user-select: none;
   }
+
   .gui-panel button:hover {
-    background-color: #0066cc;
+    background-color: #005bb5;
     color: white;
   }
-  .gui-container.dark-mode .gui-panel button {
-    border-color: #3399ff;
-    color: #3399ff;
-  }
-  .gui-container.dark-mode .gui-panel button:hover {
-    background-color: #3399ff;
-    color: #222;
-  }
 
-  /* Minimized state: hide body, keep panel visible */
   .gui-container.minimized .gui-body {
     max-height: 0;
     padding: 0;
@@ -152,6 +134,7 @@ style.textContent = `
     pointer-events: none;
     user-select: none;
   }
+
   .gui-container.minimized .gui-panel {
     max-height: none;
     padding: 10px 0;
@@ -161,10 +144,10 @@ style.textContent = `
 
   .credits {
     font-size: 12px;
-    font-family: 'Open Sans', cursive;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
   }
 `;
-
 document.head.appendChild(style);
 
 // Create GUI container
@@ -179,10 +162,8 @@ gui.innerHTML = `
   </div>
   <div class="gui-body" id="guiBody">
     <div class="credits" id="creds">
-  Made by <a href="https://github.com/jamesko4011" target="_blank" rel="noopener noreferrer">Jamesko1104</a>
-</div>
-
-
+      Made by <a href="https://github.com/jamesko4011" target="_blank" rel="noopener noreferrer" style="color: #fff;">Jamesko1104</a>
+    </div>
     <button class="gui-button" id="autoBtn">Auto Answer</button>
     <button class="gui-button" onclick="
       document.querySelectorAll('span.question-invisible.correct').forEach(span => {
@@ -194,25 +175,23 @@ gui.innerHTML = `
   <div class="gui-panel">
     <button id="minBtn" title="Minimize">–</button>
     <button id="closeBtn" title="Close GUI">&times;</button>
-    <button id="darkModeBtn" title="Toggle Dark Mode">☀️</button>
   </div>
 `;
 document.body.appendChild(gui);
 
-// Dragging functionality (drag by header)
+// Dragging functionality
 const header = document.getElementById("guiHeader");
-let dragging = false;
-let offsetX = 0, offsetY = 0;
+let dragging = false, offsetX = 0, offsetY = 0;
 
-header.addEventListener("mousedown", (e) => {
-  if (e.target.closest("button")) return; // prevent drag if clicking buttons
+header.addEventListener("mousedown", e => {
+  if (e.target.closest("button")) return;
   dragging = true;
   offsetX = e.clientX - gui.offsetLeft;
   offsetY = e.clientY - gui.offsetTop;
   document.body.style.userSelect = "none";
 });
 
-document.addEventListener("mousemove", (e) => {
+document.addEventListener("mousemove", e => {
   if (dragging) {
     gui.style.left = (e.clientX - offsetX) + "px";
     gui.style.top = (e.clientY - offsetY) + "px";
@@ -224,41 +203,22 @@ document.addEventListener("mouseup", () => {
   document.body.style.userSelect = "";
 });
 
-// Minimize button logic
-const minBtn = document.getElementById("minBtn");
-let minimized = false;
-minBtn.onclick = () => {
-  minimized = !minimized;
-  if (minimized) {
-    gui.classList.add("minimized");
-    minBtn.textContent = "+";
-  } else {
-    gui.classList.remove("minimized");
-    minBtn.textContent = "–";
-  }
+// Minimize logic
+document.getElementById("minBtn").onclick = () => {
+  gui.classList.toggle("minimized");
+  document.getElementById("minBtn").textContent = gui.classList.contains("minimized") ? "+" : "–";
 };
 
-// Close button logic
-const closeBtn = document.getElementById("closeBtn");
-closeBtn.onclick = () => gui.remove();
+// Close logic
+document.getElementById("closeBtn").onclick = () => gui.remove();
 
-// Dark mode toggle (only GUI container)
-const darkModeBtn = document.getElementById("darkModeBtn");
-darkModeBtn.onclick = () => {
-  gui.classList.toggle("dark-mode");
-  darkModeBtn.textContent = gui.classList.contains("dark-mode") ? "🌙" : "☀️";
-};
-
-// Auto Answer Logic
+// Auto Answer logic
 document.getElementById("autoBtn").addEventListener("click", () => {
-  let attempts = 0;
-  const maxAttempts = 10;
-
+  let attempts = 0, maxAttempts = 10;
   (function loop() {
     const correct = document.querySelector("span.question-invisible.correct");
     const input = document.querySelector('input.form-text[name="answer_0"]');
     const submit = document.querySelector(".submit-question.button.success.radius.form-submit");
-
     if (correct && input && submit) {
       input.value = correct.textContent.trim();
       input.dispatchEvent(new Event("input", { bubbles: true }));

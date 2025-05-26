@@ -1,14 +1,15 @@
-// Load Fredoka One font
+// Load fonts
 const font = document.createElement("link");
 font.href = "https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap";
 font.rel = "stylesheet";
 document.head.appendChild(font);
+
 const font2 = document.createElement("link");
 font2.href = "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
 font2.rel = "stylesheet";
 document.head.appendChild(font2);
 
-// Inject styles
+// Style
 const style = document.createElement("style");
 style.textContent = `
   .gui-container {
@@ -23,14 +24,12 @@ style.textContent = `
     width: 330px;
     min-width: 200px;
     z-index: 99999;
-    resize: both;
-    overflow: hidden;
+    overflow: hidden !important;
+    resize: none !important;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: background-color 0.3s, color 0.3s;
   }
-
   .gui-header {
     display: flex;
     align-items: center;
@@ -41,39 +40,27 @@ style.textContent = `
     cursor: move;
     background-color: #0066cc;
     color: white;
-    user-select: none;
     justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
   }
-
-  .gui-header .left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
   .gui-header img {
     width: 30px;
     height: 30px;
   }
-
   .gui-header span {
+    font-weight: bold;
     font-size: 18px;
   }
-
   .gui-body {
     padding: 15px 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
-    transition: max-height 0.3s ease;
     background-color: #3391bd;
     color: white;
   }
-
   .gui-button {
     font-family: 'Fredoka One', cursive;
     width: 95%;
@@ -85,14 +72,11 @@ style.textContent = `
     border-radius: 100px;
     font-size: 106%;
     cursor: pointer;
-    transition: background-color 0.3s;
     max-width: 280px;
   }
-
   .gui-button:hover {
     background-color: #005bb5;
   }
-
   .gui-panel {
     display: flex;
     justify-content: center;
@@ -106,9 +90,7 @@ style.textContent = `
     background-color: #3391bd;
     width: 100%;
     box-sizing: border-box;
-    transition: max-height 0.3s ease;
   }
-
   .gui-panel button {
     background-color: #0066cc;
     border: 2px solid #FFFFFF;
@@ -117,31 +99,16 @@ style.textContent = `
     font-size: 20px;
     cursor: pointer;
     padding: 5px 12px;
-    transition: background-color 0.3s, color 0.3s;
     user-select: none;
   }
-
   .gui-panel button:hover {
     background-color: #005bb5;
-    color: white;
   }
-
   .gui-container.minimized .gui-body {
     max-height: 0;
     padding: 0;
-    margin: 0;
     overflow: hidden;
-    pointer-events: none;
-    user-select: none;
   }
-
-  .gui-container.minimized .gui-panel {
-    max-height: none;
-    padding: 10px 0;
-    pointer-events: auto;
-    user-select: auto;
-  }
-
   .credits {
     font-size: 12px;
     font-family: 'Open Sans', sans-serif;
@@ -150,27 +117,20 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Create GUI container
+// Create GUI
 const gui = document.createElement("div");
 gui.className = "gui-container";
 gui.innerHTML = `
   <div class="gui-header" id="guiHeader">
     <div class="left">
       <img src="https://i.ibb.co/C5tNRXNf/image-removebg-preview-4.png" alt="Logo">
-      <span>r</span>
+      <span>JuniorGUI</span>
     </div>
   </div>
   <div class="gui-body" id="guiBody">
-    <div class="credits" id="creds">
-      Made by <a href="https://github.com/jamesko4011" target="_blank" rel="noopener noreferrer" style="color: #fff;">Jamesko1104</a>
-    </div>
+    <div class="credits">Made by <a href="https://github.com/jamesko4011" target="_blank" style="color:white;">Jamesko1104</a></div>
     <button class="gui-button" id="autoBtn">Auto Answer</button>
-    <button class="gui-button" onclick="
-      document.querySelectorAll('span.question-invisible.correct').forEach(span => {
-        span.classList.remove('question-invisible');
-        span.classList.add('question-visible');
-      });
-    ">Show Answer</button>
+    <button class="gui-button" id="showAnsBtn">Show Answer</button>
   </div>
   <div class="gui-panel">
     <button id="minBtn" title="Minimize">–</button>
@@ -179,53 +139,64 @@ gui.innerHTML = `
 `;
 document.body.appendChild(gui);
 
-// Dragging functionality
+// Drag functionality
 const header = document.getElementById("guiHeader");
 let dragging = false, offsetX = 0, offsetY = 0;
-
-header.addEventListener("mousedown", e => {
+header.addEventListener("mousedown", (e) => {
   if (e.target.closest("button")) return;
   dragging = true;
   offsetX = e.clientX - gui.offsetLeft;
   offsetY = e.clientY - gui.offsetTop;
   document.body.style.userSelect = "none";
 });
-
-document.addEventListener("mousemove", e => {
+document.addEventListener("mousemove", (e) => {
   if (dragging) {
-    gui.style.left = (e.clientX - offsetX) + "px";
-    gui.style.top = (e.clientY - offsetY) + "px";
+    gui.style.left = `${e.clientX - offsetX}px`;
+    gui.style.top = `${e.clientY - offsetY}px`;
   }
 });
-
 document.addEventListener("mouseup", () => {
   dragging = false;
   document.body.style.userSelect = "";
 });
 
-// Minimize logic
-document.getElementById("minBtn").onclick = () => {
+// Minimize button
+document.getElementById("minBtn").addEventListener("click", () => {
   gui.classList.toggle("minimized");
   document.getElementById("minBtn").textContent = gui.classList.contains("minimized") ? "+" : "–";
-};
+});
 
-// Close logic
-document.getElementById("closeBtn").onclick = () => gui.remove();
+// Close button
+document.getElementById("closeBtn").addEventListener("click", () => gui.remove());
 
-// Auto Answer logic
+// Show Answer button logic — change div.question-invisible.big_text to class "text"
+document.getElementById("showAnsBtn").addEventListener("click", () => {
+  document.querySelectorAll('div.question-invisible.big_text').forEach(div => {
+    div.className = "text";
+  });
+});
+
+// Auto Answer button logic — repeat 10 times with 2s cooldown
 document.getElementById("autoBtn").addEventListener("click", () => {
-  let attempts = 0, maxAttempts = 10;
+  let attempts = 0;
+  const maxAttempts = 10;
+  const cooldown = 2000; // 2 seconds
+
   (function loop() {
-    const correct = document.querySelector("span.question-invisible.correct");
+    let correct = document.querySelector("span.question-invisible.correct")
+                  || document.querySelector("span.question-invisible.big_text.correct");
     const input = document.querySelector('input.form-text[name="answer_0"]');
     const submit = document.querySelector(".submit-question.button.success.radius.form-submit");
+
     if (correct && input && submit) {
       input.value = correct.textContent.trim();
       input.dispatchEvent(new Event("input", { bubbles: true }));
       submit.click();
-      if (++attempts < maxAttempts) setTimeout(loop, 500);
-    } else {
-      setTimeout(loop, 200);
+    }
+
+    attempts++;
+    if (attempts < maxAttempts) {
+      setTimeout(loop, cooldown);
     }
   })();
 });

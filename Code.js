@@ -171,10 +171,17 @@ document.getElementById("closeBtn").addEventListener("click", () => gui.remove()
 
 // Show Answer button logic — change div.question-invisible.big_text to class "text"
 document.getElementById("showAnsBtn").addEventListener("click", () => {
-  document.querySelectorAll('div.question-invisible.big_text').forEach(div => {
-    div.className = "text";
+  // Show the original question text
+  document.querySelectorAll('div.question-invisible.big_text').forEach(el => {
+    el.className = "text";
+  });
+
+  // Show the correct answers
+  document.querySelectorAll('span.question-invisible.correct').forEach(el => {
+    el.className = "text correct"; // keep correct class if needed for styling
   });
 });
+
 
 // Auto Answer button logic — repeat 10 times with 2s cooldown
 document.getElementById("autoBtn").addEventListener("click", () => {

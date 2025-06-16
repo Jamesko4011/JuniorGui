@@ -12,107 +12,146 @@ document.head.appendChild(font2);
 // Style
 const style = document.createElement("style");
 style.textContent = `
+  @keyframes flicker {
+    0% { opacity: 0.95; }
+    5% { opacity: 0.5; }
+    10% { opacity: 1; }
+    15% { opacity: 0.7; }
+    20% { opacity: 1; }
+    100% { opacity: 0.95; }
+  }
+
   .gui-container {
-    font-family: 'Fredoka One', cursive;
+    display: flex;
+    font-family: 'Courier New', monospace;
     position: fixed;
     top: 20px;
     left: 20px;
-    background: white;
-    color: #111;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    width: 330px;
-    min-width: 200px;
+    background: #000;
+    color: #00FF00;
+    border: 2px solid #00FF00;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00FF00;
+    width: auto;
     z-index: 99999;
-    overflow: hidden !important;
-    resize: none !important;
+    animation: flicker 2s infinite alternate;
+  }
+
+  .gui-core {
+    width: 340px;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
+
   .gui-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-    cursor: move;
-    background-color: #0066cc;
-    color: white;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .gui-header img {
-    width: 30px;
-    height: 30px;
-  }
-  .gui-header span {
+    padding: 10px 15px;
+    background-color: #001100;
+    color: #00FF00;
+    border-bottom: 1px solid #00FF00;
     font-weight: bold;
-    font-size: 18px;
-  }
-  .gui-body {
-    padding: 15px 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #3391bd;
-    color: white;
-  }
-  .gui-button {
-    font-family: 'Fredoka One', cursive;
-    width: 95%;
-    margin: 10px auto;
-    padding: 15px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 100px;
-    font-size: 106%;
-    cursor: pointer;
-    max-width: 280px;
-  }
-  .gui-button:hover {
-    background-color: #005bb5;
-  }
-  .gui-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
-    background: url('https://www.junioreinstein.nl/template/images/backgrounds/nl_junioreinstein/medium/bg-default.png') no-repeat center center;
-    background-size: cover;
-    background-color: #3391bd;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .gui-panel button {
-    background-color: #0066cc;
-    border: 2px solid #FFFFFF;
-    border-radius: 8px;
-    color: #FFFFFF;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 5px 12px;
+    font-size: 16px;
     user-select: none;
   }
+
+  .gui-body {
+    padding: 10px;
+    background: #000;
+    text-align: center;
+  }
+
+  .gui-button {
+    background-color: transparent;
+    color: #00FF00;
+    border: 1px solid #00FF00;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 90%;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .gui-button:hover {
+    background-color: #00FF00;
+    color: #000;
+  }
+
+  .gui-panel {
+    background: #000;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #00FF00;
+  }
+
+  .gui-panel button {
+    background: none;
+    color: #00FF00;
+    border: 1px solid #00FF00;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
   .gui-panel button:hover {
-    background-color: #005bb5;
+    background-color: #00FF00;
+    color: black;
   }
-  .gui-container.minimized .gui-body {
-    max-height: 0;
-    padding: 0;
-    overflow: hidden;
-  }
+
   .credits {
-    font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    color: white;
+    font-size: 10px;
+    color: #00FF00;
+    margin-top: 5px;
+  }
+
+  .titl {
+    font-size: 30px;
+    color: #00FF00;
+    margin-top: 5px;
+  }
+
+  .gui-extension-panel {
+    width: 230px;
+    background: #000;
+    border-left: 2px solid #00FF00;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .calculator-display {
+    background: #001100;
+    color: #00FF00;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #00FF00;
+    width: 100%;
+    text-align: right;
+    box-sizing: border-box;
+  }
+
+  .calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .calculator-buttons button {
+    background: none;
+    color: #00FF00;
+    border: 1px solid #00FF00;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .calculator-buttons button:hover {
+    background-color: #00FF00;
+    color: black;
   }
 `;
 document.head.appendChild(style);
@@ -121,25 +160,34 @@ document.head.appendChild(style);
 const gui = document.createElement("div");
 gui.className = "gui-container";
 gui.innerHTML = `
-  <div class="gui-header" id="guiHeader">
-    <div class="left">
-      <img src="https://i.ibb.co/C5tNRXNf/image-removebg-preview-4.png" alt="Logo">
-      <span>JuniorGUI</span>
+  <div class="gui-core">
+    <div class="gui-header" id="guiHeader">
+      <div class="titl">JuniorGUI</div>
+    </div>
+    <div class="gui-body" id="guiBody">
+      <div class="credits">Made by <a href="https://github.com/jamesko4011" target="_blank" style="color:white;">Jamesko1104</a></div>
+      <button class="gui-button" id="autoBtn">Auto Answer</button>
+      <button class="gui-button" id="showAnsBtn">Show Answer</button>
+    </div>
+    <div class="gui-panel">
+      <button id="minBtn" title="Minimize">–</button>
+      <button id="closeBtn" title="Close GUI">&times;</button>
     </div>
   </div>
-  <div class="gui-body" id="guiBody">
-    <div class="credits">Made by <a href="https://github.com/jamesko4011" target="_blank" style="color:white;">Jamesko1104</a></div>
-    <button class="gui-button" id="autoBtn">Auto Answer</button>
-    <button class="gui-button" id="showAnsBtn">Show Answer</button>
-  </div>
-  <div class="gui-panel">
-    <button id="minBtn" title="Minimize">–</button>
-    <button id="closeBtn" title="Close GUI">&times;</button>
+  <div class="gui-extension-panel">
+    <div class="calculator-display" id="calcDisplay">0</div>
+    <div class="calculator-buttons" id="calcButtons">
+      <button>7</button><button>8</button><button>9</button><button>/</button>
+      <button>4</button><button>5</button><button>6</button><button>*</button>
+      <button>1</button><button>2</button><button>3</button><button>-</button>
+      <button>0</button><button>.</button><button>=</button><button>+</button>
+      <button>√</button><button>^</button><button>%</button><button>C</button>
+    </div>
   </div>
 `;
 document.body.appendChild(gui);
 
-// Drag functionality
+// Dragging
 const header = document.getElementById("guiHeader");
 let dragging = false, offsetX = 0, offsetY = 0;
 header.addEventListener("mousedown", (e) => {
@@ -160,38 +208,27 @@ document.addEventListener("mouseup", () => {
   document.body.style.userSelect = "";
 });
 
-// Minimize button
+// Buttons
 document.getElementById("minBtn").addEventListener("click", () => {
-  gui.classList.toggle("minimized");
-  document.getElementById("minBtn").textContent = gui.classList.contains("minimized") ? "+" : "–";
+  document.getElementById("guiBody").classList.toggle("hidden");
 });
-
-// Close button
 document.getElementById("closeBtn").addEventListener("click", () => gui.remove());
 
-// Show Answer button logic — change div.question-invisible.big_text to class "text"
 document.getElementById("showAnsBtn").addEventListener("click", () => {
-  // Show the original question text
-  document.querySelectorAll('div.question-invisible.big_text').forEach(el => {
-    el.className = "text";
-  });
-
-  // Show the correct answers
-  document.querySelectorAll('span.question-invisible.correct').forEach(el => {
-    el.className = "text correct"; // keep correct class if needed for styling
+  document.querySelectorAll('.question-invisible').forEach(el => {
+    el.classList.remove('question-invisible');
+    el.style.display = 'inline';
   });
 });
 
-
-// Auto Answer button logic — repeat 10 times with 2s cooldown
 document.getElementById("autoBtn").addEventListener("click", () => {
   let attempts = 0;
   const maxAttempts = 10;
-  const cooldown = 2000; // 2 seconds
+  const cooldown = 2000;
 
   (function loop() {
     let correct = document.querySelector("span.question-invisible.correct")
-                  || document.querySelector("span.question-invisible.big_text.correct");
+               || document.querySelector("span.question-invisible.big_text.correct");
     const input = document.querySelector('input.form-text[name="answer_0"]');
     const submit = document.querySelector(".submit-question.button.success.radius.form-submit");
 
@@ -206,4 +243,45 @@ document.getElementById("autoBtn").addEventListener("click", () => {
       setTimeout(loop, cooldown);
     }
   })();
+});
+
+// Calculator logic
+const display = document.getElementById("calcDisplay");
+const buttons = document.getElementById("calcButtons");
+let current = "";
+
+buttons.addEventListener("click", (e) => {
+  const val = e.target.textContent;
+  if (!e.target.matches("button")) return;
+
+  switch (val) {
+    case "=":
+      try {
+        current = current.replace("√", "Math.sqrt").replace("^", "**");
+        display.textContent = eval(current);
+        current = display.textContent;
+      } catch {
+        display.textContent = "Error";
+        current = "";
+      }
+      break;
+    case "C":
+      current = "";
+      display.textContent = "0";
+      break;
+    case "√":
+    case "^":
+    case "%":
+    case "+":
+    case "-":
+    case "*":
+    case "/":
+    case ".":
+      current += val;
+      display.textContent = current;
+      break;
+    default:
+      current += val;
+      display.textContent = current;
+  }
 });
